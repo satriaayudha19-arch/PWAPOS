@@ -1,0 +1,22 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './index.css';
+import { seedDatabase } from './db/seed';
+import { useAppStore } from './store/useAppStore';
+
+async function bootstrap() {
+  await seedDatabase();
+  await useAppStore.getState().refreshPending();
+
+  ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+}
+
+void bootstrap();
